@@ -5,6 +5,8 @@ import com.liumq.java.enumpackage.Color;
 import com.liumq.java.formatclass.AppleFancyFormatter;
 import com.liumq.java.formatclass.AppleSimpleFormatter;
 import com.liumq.java.interfacepackage.AppleFormatter;
+import com.liumq.java.interfacepackage.ApplePredicate;
+import com.liumq.java.predicateclass.AppleGreenColorPredicate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +21,7 @@ public class Main {
         apples.add(new Apple(150, Color.GREEN));
         apples.add(new Apple(123, Color.GREEN));
 
-        prettyPrintApple(apples,new AppleFancyFormatter());
+        System.out.println(filterApples(apples,new AppleGreenColorPredicate()));
 
     }
 
@@ -28,5 +30,15 @@ public class Main {
             String output = formatter.accept(apple);
             System.out.println(output);
         }
+    }
+
+    public static List<Apple> filterApples (List<Apple> inventory, ApplePredicate p){
+        List<Apple> result = new ArrayList<>();
+        for(Apple apple : inventory){
+            if(p.test(apple)){
+                result.add(apple);
+            }
+        }
+        return result;
     }
 }
