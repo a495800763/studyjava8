@@ -2,14 +2,13 @@ package com.liumq.java;
 
 import com.liumq.java.entity.Apple;
 import com.liumq.java.enumpackage.Color;
-import com.liumq.java.formatclass.AppleFancyFormatter;
-import com.liumq.java.formatclass.AppleSimpleFormatter;
 import com.liumq.java.interfacepackage.AppleFormatter;
 import com.liumq.java.interfacepackage.ApplePredicate;
 import com.liumq.java.predicateclass.AppleGreenColorPredicate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.IntPredicate;
 
 public class Main {
 
@@ -21,7 +20,9 @@ public class Main {
         apples.add(new Apple(150, Color.GREEN));
         apples.add(new Apple(123, Color.GREEN));
 
-        System.out.println(filterApples(apples,new AppleGreenColorPredicate()));
+        System.out.println(filterApples(apples, new AppleGreenColorPredicate()));
+
+        IntPredicate p = (int a) -> a < 100;//不需要装箱的  IntPredicate
 
     }
 
@@ -32,10 +33,10 @@ public class Main {
         }
     }
 
-    public static List<Apple> filterApples (List<Apple> inventory, ApplePredicate p){
+    public static List<Apple> filterApples(List<Apple> inventory, ApplePredicate p) {
         List<Apple> result = new ArrayList<>();
-        for(Apple apple : inventory){
-            if(p.test(apple)){
+        for (Apple apple : inventory) {
+            if (p.test(apple)) {
                 result.add(apple);
             }
         }
