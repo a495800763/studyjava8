@@ -1,5 +1,6 @@
 package com.liumq.java;
 
+import com.liumq.java.comparatorclass.AppleComparator;
 import com.liumq.java.entity.Apple;
 import com.liumq.java.enumpackage.Color;
 import com.liumq.java.interfacepackage.AppleFormatter;
@@ -8,9 +9,12 @@ import com.liumq.java.predicateclass.AppleGreenColorPredicate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
+
+import static java.util.Comparator.comparing;
 
 public class Main {
 
@@ -37,6 +41,9 @@ public class Main {
 
         //不需要装箱的  IntPredicate
         IntPredicate p = (int a) -> a < 100;
+
+
+
 
         apples.sort((a1,a2)-> a1.getWeight()>a2.getWeight()?-1:0);
     }
@@ -70,5 +77,22 @@ public class Main {
             result.add(f.apply(a));
         }
         return result;
+    }
+
+
+    private void SortList(List<Apple> apples){
+        //apples.sort(new AppleComparator());
+//        apples.sort(new Comparator<Apple>() {
+//            @Override
+//            public int compare(Apple o1, Apple o2) {
+//               return  o1.getWeight()-o2.getWeight();
+//            }
+//        });
+
+//        apples.sort((o1,o2)->o1.getWeight()-o2.getWeight());
+
+        apples.sort(comparing((Apple a)->a.getWeight()));
+
+        apples.sort(comparing(Apple::getWeight));
     }
 }

@@ -2,6 +2,8 @@ package com.liumq.java.interfacepackage;
 
 import com.liumq.java.entity.Apple;
 
-public interface ApplePredicate {
+import java.util.function.Predicate;
+
+public interface ApplePredicate extends Predicate {
     boolean test(Apple apple);
 }
