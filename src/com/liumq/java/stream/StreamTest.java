@@ -6,14 +6,16 @@ import com.liumq.java.stream.entity.Transaction;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
 public class StreamTest {
     public static void main(String[] args) {
         List<Dish> menu = getList();
-        List<Integer> highCalotries = getTop2Meat(menu);
-        highCalotries.stream().forEach(System.out::println);
+        createStreamFromValue();
+        //highCalotries.stream().forEach(System.out::println);
     }
 
     public static List<Dish> getList() {
@@ -79,7 +81,7 @@ public class StreamTest {
         return result;
     }
 
-    public List<Transaction> getTransactions() {
+    public static List<Transaction> getTransactions() {
         Trader raoul = new Trader("Raoul", "Cambridge");
         Trader mario = new Trader("Mario", "Milan");
         Trader alan = new Trader("Alan", "Cambridge");
@@ -99,7 +101,7 @@ public class StreamTest {
     /**
      * 找出2011发生的所有交易，并按照交易额排序
      */
-    public void test1() {
+    public static void test1() {
         List<Transaction> list = getTransactions();
         list.stream()
                 .filter(q -> q.getYear() == 2011)
@@ -110,7 +112,7 @@ public class StreamTest {
     /**
      * 交易员都在哪些不同的城市工作过
      */
-    public void test2() {
+    public static void test2() {
         List<Transaction> list = getTransactions();
         list.stream()
                 .map(Transaction::getTrader)
@@ -122,7 +124,7 @@ public class StreamTest {
     /**
      * 查找所有来自剑桥（Cambridge）的交易员，并按字母顺序排序
      */
-    public void test3() {
+    public static void test3() {
         List<Transaction> list = getTransactions();
         list.stream()
                 .filter(transaction -> transaction.getTrader().getCity().equals("Cambridge"))
@@ -135,7 +137,7 @@ public class StreamTest {
     /**
      * 返回所有交易员的姓名字符串，按字母顺序排序
      */
-    public void test4() {
+    public static void test4() {
         List<Transaction> list = getTransactions();
         String reduce = list.stream()
                 .map(q -> q.getTrader().getName())
@@ -149,7 +151,7 @@ public class StreamTest {
     /**
      * 有没有交易员是在米兰工作的
      */
-    public void test5() {
+    public static void test5() {
         List<Transaction> list = getTransactions();
         boolean anyMatch = list.stream()
                 .anyMatch(p -> p.getTrader().getCity().equals("Milan"));
@@ -159,7 +161,7 @@ public class StreamTest {
     /**
      * 打印生活在剑桥的交易员的所有交易额
      */
-    public void test6() {
+    public static void test6() {
         List<Transaction> list = getTransactions();
         list.stream()
                 .filter(p -> p.getTrader().getCity().equals("Cambridge"))
@@ -170,7 +172,7 @@ public class StreamTest {
     /**
      * 所有交易中，最高的交易额是多少
      */
-    public void test7(){
+    public static void test7(){
         List<Transaction> list = getTransactions();
         list.stream().map(q->q.getValue())
                 .reduce(Integer::max);
@@ -180,11 +182,33 @@ public class StreamTest {
     /**
      * 找到交易额最小的交易
      */
-    public void test8(){
+    public static void test8(){
         List<Transaction> list = getTransactions();
         list.stream().map(q->q.getValue())
                 .min(Integer::compareTo);
 
+    }
+
+    /**
+     * 数值流生成勾股数组
+     */
+    public static void getGouguNumber(){
+        IntStream.rangeClosed(1,100).boxed()
+                .flatMap(a->
+                        IntStream.rangeClosed(a,100)
+                .filter(b->Math.sqrt(a*a+b*b)%1==0)
+                .mapToObj(b->new int[] {a,b,(int)Math.sqrt(a*a+b*b)}))
+                .limit(20)
+                .forEach(t->System.out.println(t[0]+","+t[1]+","+t[2]));
+    }
+
+
+    /**
+     * 由值创建流
+     */
+    public static void createStreamFromValue(){
+        Stream<String> stream = Stream.of("Modern", "Java", "In", "Action");
+        stream.map(String::toUpperCase).forEach(System.out::println);
     }
 
 
