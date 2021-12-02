@@ -7,6 +7,7 @@ import com.liumq.java.stream.entity.Transaction;
 import java.util.*;
 import static java.util.stream.Collectors.*;
 
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -17,7 +18,7 @@ import static java.util.stream.Collectors.toList;
 public class StreamTest {
     public static void main(String[] args) {
         List<Dish> menu = getList();
-        test2(menu);
+        groupingTest(menu);
         //long count = menu.stream().count();
         //System.out.println(count);
         //System.out.println(menu.size());
@@ -45,6 +46,29 @@ public class StreamTest {
 
     public static void genericCollector(List<Dish> list){
         //list.stream().collect(Collectors.reducing())
+    }
+
+    public static void groupingByTest(List<Dish> list){
+        Map<String, List<Dish>> dic = list.stream()
+                .collect(groupingBy(dish -> {
+                    if (dish.getCalories() <= 400) {
+                        return "低热量";
+                    } else if (dish.getCalories() <= 700) {
+                        return "中等热量";
+                    } else {
+                        return "高热量";
+                    }
+                }));
+
+        System.out.println(dic);
+    }
+
+    public static void groupingTest(List<Dish> list){
+        Map<Dish.Type, List<String>> map = list.stream()
+                .collect(groupingBy(Dish::getType,
+                        mapping(Dish::getName, toList())));
+
+        System.out.println(map);
     }
     /**
      * 使用迭代器从外部循环筛选卡路里大于300 的dish
