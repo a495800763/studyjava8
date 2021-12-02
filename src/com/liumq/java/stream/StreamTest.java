@@ -5,16 +5,23 @@ import com.liumq.java.stream.entity.Trader;
 import com.liumq.java.stream.entity.Transaction;
 
 import java.util.*;
+import static java.util.stream.Collectors.*;
+
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
 public class StreamTest {
     public static void main(String[] args) {
         List<Dish> menu = getList();
-        createStreamFromValue();
+        test2(menu);
+        //long count = menu.stream().count();
+        //System.out.println(count);
+        //System.out.println(menu.size());
+        //createStreamFromValue();
         //highCalotries.stream().forEach(System.out::println);
     }
 
@@ -31,6 +38,14 @@ public class StreamTest {
                 new Dish("salmon", false, 450, Dish.Type.FISH));
     }
 
+    public static void test2(List<Dish> list){
+        IntSummaryStatistics collect = list.stream().collect(summarizingInt(Dish::getCalories));
+        System.out.println(collect.toString());
+    }
+
+    public static void genericCollector(List<Dish> list){
+        //list.stream().collect(Collectors.reducing())
+    }
     /**
      * 使用迭代器从外部循环筛选卡路里大于300 的dish
      *
@@ -187,6 +202,15 @@ public class StreamTest {
         list.stream().map(q->q.getValue())
                 .min(Integer::compareTo);
 
+    }
+
+    public static void collectTest(){
+        List<Transaction> list = getTransactions();
+        //groupingBy的第一个参数传入一个function ，这个fanction 的结果作为Key,将源list分组得到dic
+        //即下式将List<Transaction>类型的list 按Transaction类的属性 年份 getYear() 分组，得到分组后每个年份对应的List<Transaction>
+        Map<Integer, List<Transaction>> dic = list.stream().collect(groupingBy(Transaction::getYear));
+
+        //Map<Integer, List<Transaction>> dic = list.stream().collect(toList());
     }
 
     /**
