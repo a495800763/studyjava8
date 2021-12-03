@@ -1,5 +1,6 @@
 package com.liumq.java.stream;
 
+import com.liumq.java.stream.collect.PrimeNumberCollector;
 import com.liumq.java.stream.entity.Dish;
 import com.liumq.java.stream.entity.Trader;
 import com.liumq.java.stream.entity.Transaction;
@@ -7,8 +8,6 @@ import com.liumq.java.stream.entity.Transaction;
 import java.util.*;
 import static java.util.stream.Collectors.*;
 
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -18,7 +17,8 @@ import static java.util.stream.Collectors.toList;
 public class StreamTest {
     public static void main(String[] args) {
         List<Dish> menu = getList();
-        groupingTest(menu);
+        Map<Boolean, List<Integer>> result = partitionPrimes(500);
+        System.out.println(result);
         //long count = menu.stream().count();
         //System.out.println(count);
         //System.out.println(menu.size());
@@ -213,7 +213,7 @@ public class StreamTest {
      */
     public static void test7(){
         List<Transaction> list = getTransactions();
-        list.stream().map(q->q.getValue())
+        list.stream().map(Transaction::getValue)
                 .reduce(Integer::max);
 
     }
@@ -257,6 +257,28 @@ public class StreamTest {
     public static void createStreamFromValue(){
         Stream<String> stream = Stream.of("Modern", "Java", "In", "Action");
         stream.map(String::toUpperCase).forEach(System.out::println);
+    }
+
+
+    /**
+     * 将数字按质数和非质数区分
+     *
+     */
+    public static Boolean IsPrime(int candidite){
+
+        //从2 开始一直到被测数字（candidate），candidite都不能整除他们，则candidite是一个质数
+
+        boolean b = IntStream.range(2, candidite)
+                .noneMatch(i -> candidite % i == 0);
+
+        return b;
+    }
+
+    public static Map<Boolean,List<Integer>> partitionPrimes(int n){
+        Map<Boolean, List<Integer>> collect = IntStream.rangeClosed(2, n).boxed()
+                //.collect(partitioningBy(q -> IsPrime(q)));
+        .collect(new PrimeNumberCollector());
+        return collect;
     }
 
 
