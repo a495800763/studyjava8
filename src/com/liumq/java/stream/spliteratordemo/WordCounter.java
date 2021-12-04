@@ -1,6 +1,5 @@
 package com.liumq.java.stream.spliteratordemo;
 
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 
 /**
  * 用来计数单词的工具类
