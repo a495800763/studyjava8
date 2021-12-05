@@ -7,12 +7,9 @@ public class Main {
         f.registerObserver(new NYTimes());
         f.registerObserver(new Guardian());
         f.registerObserver(new LeMonde());
-        f.registerObserver(new Observer() {
-            @Override
-            public void notify(String tweet) {
-                if((tweet != null)&&  tweet.contains("java") ){
-                    System.out.println("This is a new tweet about CS... : "+ tweet);
-                }
+        f.registerObserver(tweet -> {
+            if((tweet != null)&&  tweet.contains("java") ){
+                System.out.println("This is a new tweet about CS... : "+ tweet);
             }
         });
         f.notifyObservers("The queen said her favourite book is Modern java in action");
