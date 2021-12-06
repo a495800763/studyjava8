@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
 
@@ -20,13 +21,24 @@ public class Main {
 
     public static void main(String[] args) {
         //test1();
-        List<Integer> weight = Arrays.asList(7,3,4,10);
-        List<Apple> list = map(weight,Apple::new);
+//        List<Integer> weight = Arrays.asList(7,3,4,10);
+//        List<Apple> list = map(weight,Apple::new);
+//
+//        for(Apple apple : list){
+//            System.out.println(apple.toString());
+//        }
+        function(123, o -> {
 
-        for(Apple apple : list){
-            System.out.println(apple.toString());
+            System.out.println(o);
+            return o;
+        });
+    }
+
+    public static void function (long times,  Function f){
+        f.apply(1);
+        if(times>1){
+            function(times-1,f);
         }
-
     }
 
     private static void test1() {

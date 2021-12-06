@@ -8,7 +8,17 @@ public enum Color {
     /**
      * 绿色
      */
-    GREEN(2, "green");
+    GREEN(2, "green"),
+
+    /**
+     * 黑色
+     */
+    BLACK(3,"black"),
+
+    /**
+     *
+     */
+    WHITE(4,"white");
 
 
     private int code;
