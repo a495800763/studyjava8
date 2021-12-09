@@ -1,8 +1,6 @@
 package com.liumq.java.optional.olddemo;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -112,5 +110,35 @@ public class Main {
                 .map(Insurance::getName)
                 .orElse("unknown");
         return name;
+    }
+
+    /**
+     * 处理null指针的方式获取properties 中的可作为正整数的值
+     * @param props
+     * @param name
+     * @return
+     */
+    public int readDuration(Properties props,String name){
+        String value = props.getProperty(name);
+        if(value!=null){
+            try{
+                int i = Integer.parseInt(value);
+                if(i>0){
+                    return i;
+                }
+            }
+            catch (NumberFormatException e){
+
+            }
+        }
+        return 0;
+    }
+
+    public int readDurationByOptional (Properties props,String name){
+        Integer integer = Optional.ofNullable(props.get(name))
+                .flatMap(q -> Optional.of(Integer.parseInt((String) q)))
+                .filter(i -> i > 0)
+                .orElse(0);
+        return integer;
     }
 }
