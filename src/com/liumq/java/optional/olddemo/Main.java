@@ -56,7 +56,7 @@ public class Main {
 //        return insurance.getName();
 //    }
 
-    public static String  optionalObjectTest(Person person){
+    public static String optionalObjectTest(Person person) {
         Optional<Person> optPerson = Optional.of(person);
         String insuranceName = optPerson.flatMap(Person::getCar)
                 .flatMap(Car::getInsurance)
@@ -67,7 +67,7 @@ public class Main {
 
     }
 
-    public Set<String> getCarInsuranceNames (List<Person> persons){
+    public Set<String> getCarInsuranceNames(List<Person> persons) {
         Set<String> collect = persons.stream().map(Person::getCar)
                 //此处map操作的是Optional<Car>,没有Car的方法，因此还需要将Optional<Car>转换为Car，即使用flatmap 得到car并传递方法引用得到 insurance
                 .map(optCar -> optCar.flatMap(Car::getInsurance))
@@ -81,27 +81,36 @@ public class Main {
         return collect;
     }
 
-    public Set<String> getCarInsuranceNamesNew (List<Person> persons){
+    public Set<String> getCarInsuranceNamesNew(List<Person> persons) {
 //         persons.stream().map(Person::getCar)
 //                .map(Car::getInsurance)
         return null;
     }
 
-    public Insurance findCheapestInsurance(Car car,Person person){
+    public Insurance findCheapestInsurance(Car car, Person person) {
         return null;
         //todo
     }
 
-    public Optional<Insurance> nullSafeFindCheapestInsurance(Optional<Car> car,Optional<Person> person){
-        if(car.isPresent()&&person.isPresent()){
-            return Optional.of(findCheapestInsurance(car.get(),person.get()));
-        }else{
+    public Optional<Insurance> nullSafeFindCheapestInsurance(Optional<Car> car, Optional<Person> person) {
+        if (car.isPresent() && person.isPresent()) {
+            return Optional.of(findCheapestInsurance(car.get(), person.get()));
+        } else {
             return Optional.empty();
         }
     }
 
-    public  Optional<Insurance> nullSafeFindCheapestInsuranceNew(Optional<Car> car,Optional<Person> person){
+    public Optional<Insurance> nullSafeFindCheapestInsuranceNew(Optional<Car> car, Optional<Person> person) {
         Optional<Insurance> insurance = person.flatMap(optPer -> car.map(optCar -> findCheapestInsurance(optCar, optPer)));
-        return  insurance;
+        return insurance;
+    }
+
+    public String getCarInsurance(Optional<Person> person, int minAge) {
+        String name = person.filter(p -> p.getAge() >= minAge)
+                .flatMap(Person::getCar)
+                .flatMap(Car::getInsurance)
+                .map(Insurance::getName)
+                .orElse("unknown");
+        return name;
     }
 }
