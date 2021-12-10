@@ -73,8 +73,6 @@ public class Test {
         int nano = now.getNano();
 
 
-        Duration
-
         int q= 3;
     }
 }
