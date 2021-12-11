@@ -67,7 +67,7 @@ public class Test {
         Instant instant1 = Instant.ofEpochSecond(3);
         Instant instant2 = Instant.ofEpochSecond(3, 0);
         Instant instant3 = Instant.ofEpochSecond(2, 1_000_000_000);
-        Instant instant4 = Instant.ofEpochSecond(4, -1_000_000_000);
+        Instant instant4 = Instant.ofEpochSecond(4, -2_000_000_000);
 
         Instant now = Instant.now();
         int nano = now.getNano();
