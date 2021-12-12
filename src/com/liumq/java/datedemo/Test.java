@@ -2,13 +2,14 @@ package com.liumq.java.datedemo;
 
 import java.time.*;
 import java.time.temporal.ChronoField;
-import java.util.Date;
+import java.time.temporal.ChronoUnit;
+import static java.time.temporal.TemporalAdjusters.*;
 
 public class Test {
     public static void main(String[] args) {
 //        Date date = new Date(117,8,21);
 //        System.out.println(date);
-        useInstantTime();
+        parseDateTime();
     }
 
     public static void userLocalDate(){
@@ -74,5 +75,31 @@ public class Test {
 
 
         int q= 3;
+    }
+
+    /**
+     * 使用with 修改localdate和localtime
+     */
+    public static void parseDateTime(){
+        LocalDate date1 = LocalDate.of(2017, 9, 21);
+        LocalDate date2 = date1.withYear(2021);
+        LocalDate date3 = date1.withDayOfMonth(12);
+        LocalDate date4 = date1.with(ChronoField.MONTH_OF_YEAR, 2);
+
+        int b = 5;
+    }
+
+    /**
+     * 使用声明方式操纵localDate对象
+     */
+    public static void  useDateTimeByDeclare(){
+        LocalDate date1 = LocalDate.of(2017, 9, 21);
+        //date1时间加上一个星期
+        LocalDate date2 = date1.plusWeeks(1);
+        //date2时间减去6年
+        LocalDate date3 = date2.minusYears(6);
+        //date3时间加上6个月
+        LocalDate date4 = date3.plus(6, ChronoUnit.MONTHS);
+
     }
 }
